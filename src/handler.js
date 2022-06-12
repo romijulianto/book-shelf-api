@@ -1,5 +1,5 @@
-const { nanoid } = require('nanoid');
-const books = require('./books');
+const { nanoid } = require("nanoid");
+const books = require("./books");
 
 // 1. Kriteria 1: API Dapat Menyimpan Buku
 const addBookHandler = (request, h) => {
@@ -177,4 +177,34 @@ const getAllBooksHandler = (request, h) => {
             },
         })
         .code(200);
+};
+
+// Kriteria 3: API Dapat Mengubah Buku
+const getBooksByIdHandler = (request, h) => {
+    const { bookId } = request.params;
+    const book = books.filter((book) => book.id === bookId)[0];
+
+    if (book !== undefined) {
+        return h
+            .response({
+                status: "success",
+                data: {
+                    book,
+                },
+            })
+            .code(200);
+    }
+
+    return h
+        .response({
+            status: "fail",
+            message: "Buku tidak ditemukan",
+        })
+        .code(404);
+};
+
+module.exports = {
+    addBookHandler,
+    getAllBooksHandler,
+    getBooksByIdHandler,
 };
