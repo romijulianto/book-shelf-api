@@ -41,8 +41,8 @@ const addBookHandler = (request, h) => {
     if (!name) {
         return h
             .response({
-                status: "fail",
-                message: "Gagal menambahkan buku. Mohon isi nama buku",
+                status: 'fail',
+                message: 'Gagal menambahkan buku. Mohon isi nama buku',
             })
             .code(400);
     }
@@ -50,8 +50,8 @@ const addBookHandler = (request, h) => {
     if (readPage > pageCount) {
         return h
             .response({
-                status: "fail",
-                message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+                status: 'fail',
+                message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
             })
             .code(400);
     }
@@ -61,8 +61,8 @@ const addBookHandler = (request, h) => {
     if (isSuccess) {
         return h
             .response({
-                status: "success",
-                message: "Buku berhasil ditambahkan",
+                status: 'success',
+                message: 'Buku berhasil ditambahkan',
                 data: {
                     bookId: id,
                 },
@@ -72,8 +72,109 @@ const addBookHandler = (request, h) => {
 
     return h
         .response({
-            status: "error",
-            message: "Buku gagal ditambahkan",
+            status: 'error',
+            message: 'Buku gagal ditambahkan',
         })
         .code(500);
+};
+
+// Kriteria 2: API Dapat Menampilkan Buku
+const getAllBooksHandler = (request, h) => {
+    const { name, reading, finished } = request.query;
+
+    if (name) {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books.map((book) => ({
+                        id: book.id,
+                        name: book.name,
+                        publisher: book.publisher,
+                    })),
+                },
+            })
+            .code(200);
+    }
+
+    if (reading === '1') {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books
+                        .filter((book) => book.reading === true)
+                        .map((book) => ({
+                            id: book.id,
+                            name: book.name,
+                            publisher: book.publisher,
+                        })),
+                },
+            })
+            .code(200);
+    }
+
+    if (reading === '0') {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books
+                        .filter((book) => book.reading === false)
+                        .map((book) => ({
+                            id: book.id,
+                            name: book.name,
+                            publisher: book.publisher,
+                        })),
+                },
+            })
+            .code(200);
+    }
+
+    if (finished === '1') {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books
+                        .filter((book) => book.finished === true)
+                        .map((book) => ({
+                            id: book.id,
+                            name: book.name,
+                            publisher: book.publisher,
+                        })),
+                },
+            })
+            .code(200);
+    }
+
+    if (finished === '0') {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books
+                        .filter((book) => book.finished === false)
+                        .map((book) => ({
+                            id: book.id,
+                            name: book.name,
+                            publisher: book.publisher,
+                        })),
+                },
+            })
+            .code(200);
+    }
+
+    return h
+        .response({
+            status: 'success',
+            data: {
+                books: books.map((book) => ({
+                    id: book.id,
+                    name: book.name,
+                    publisher: book.publisher,
+                })),
+            },
+        })
+        .code(200);
 };
