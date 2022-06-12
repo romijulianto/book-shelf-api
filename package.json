@@ -1,0 +1,19 @@
+{
+    "name": "bookshelfapi",
+    "version": "1.0.0",
+    "description": "Bookshelf API for Dicoding Submission",
+    "main": "index.js",
+    "scripts": {
+        "start-dev": "nodemon ./src/server.js"
+    },
+    "author": "Romi Julianto",
+    "license": "ISC",
+    "dependencies": {
+        "@hapi/hapi": "^20.2.2",
+        "nanoid": "^4.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.17.0",
+        "nodemon": "^2.0.16"
+    }
+}
